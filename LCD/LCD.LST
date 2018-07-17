@@ -1,0 +1,201 @@
+C51 COMPILER V8.08   LCD                                                                   04/08/2008 14:34:08 PAGE 1   
+
+
+C51 COMPILER V8.08, COMPILATION OF MODULE LCD
+OBJECT MODULE PLACED IN LCD.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE LCD.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********************************************
+   2          ; Name: Paul Davis
+   3          ; Date: April 8, 2008
+   4          ; File: LCD.c
+   5          
+   6          ; This program displays allows you to type 
+   7          ; characters on the keyboard of your PC  
+   8          ; and then have them displayed on your LCD.
+   9          ; Pushing control and C at the same time  
+  10          ; will clear the LCD screen.
+  11          ; Pushing control and A at the same time 
+  12          ; will set the cursor to line one.
+  13          ; Pushing control and Z at the same time 
+  14          ; will set the cursor to line two.
+  15          ;
+  16          ; Data is connected to P1
+  17          ; RS is connected to P2.0 
+  18          ; RW is connected to P2.1 
+  19          ; EN is connected to P2.2 
+  20          ;********************************************/
+  21          
+  22          #include <reg51.h>
+  23          
+  24           void waitLCD(void);
+  25           void initLCD(void);
+  26           void clearLCD(void);
+  27           void serialSetup(void);
+  28           void waitToRecieve(void);
+  29           void checkControlC(unsigned char value);
+  30           void checkControlA(unsigned char value);
+  31           void checkControlZ(unsigned char value);
+  32           void writeText(unsigned char value);
+  33          
+  34           sbit EN   = P2^2;
+  35           sbit RW   = P2^1;
+  36           sbit RS   = P2^0;
+  37           sfr ldata = 0x90;      // P1=LCD data pins
+  38           
+  39           void main(void)
+  40           {
+  41   1              waitLCD();
+  42   1              initLCD();
+  43   1              clearLCD();
+  44   1              serialSetup();
+  45   1              waitToRecieve();
+  46   1       }
+  47            
+  48           void waitLCD()
+  49           {
+  50   1              unsigned char value, mask, D7;
+  51   1              mask = 0x80;
+  52   1              EN = 1;                                 // Start LCD command
+  53   1              RS = 0;                                 // Its a command
+  54   1              RW = 1;                                 // Its a read command
+  55   1              ldata = 0xFF;                   // Set to input
+C51 COMPILER V8.08   LCD                                                                   04/08/2008 14:34:08 PAGE 2   
+
+  56   1              value = ldata;                  // Get data
+  57   1              D7 = value & mask;
+  58   1              if(D7 == 0x80)                  // Waits until busy flag is low
+  59   1                      waitLCD();
+  60   1              EN = 0;
+  61   1              RW = 0;
+  62   1              return; 
+  63   1       }
+  64          
+  65          // Initializes LCD 
+  66           void initLCD()
+  67           {
+  68   1              EN = 1;
+  69   1              RS = 0;
+  70   1              ldata = 0x38;
+  71   1              EN = 0;
+  72   1              waitLCD();
+  73   1              EN = 1;
+  74   1              RS = 0;
+  75   1              ldata = 0x0E;
+  76   1              EN = 0;
+  77   1              waitLCD();
+  78   1              EN = 1;
+  79   1              RS = 0;
+  80   1              ldata = 0x06;
+  81   1              EN = 0;
+  82   1              waitLCD();
+  83   1              return;
+  84   1       } 
+  85          
+  86          // Clears the LCD
+  87           void clearLCD()
+  88           {
+  89   1              EN = 1;
+  90   1              RS = 0;
+  91   1              ldata = 0x01;
+  92   1              EN = 0;
+  93   1              waitLCD();
+  94   1              return;
+  95   1       }
+  96          
+  97          // Initializes the timing
+  98          // and serial
+  99           void serialSetup()
+ 100           {
+ 101   1              TMOD = 0x20;
+ 102   1              TL1 = 0;
+ 103   1              TH1 = -3;
+ 104   1              SCON = 0x50;
+ 105   1              TR1 = 1;
+ 106   1              return; 
+ 107   1       }
+ 108          
+ 109          // Waits for RI to become high 
+ 110          // then movs the serial value
+ 111          // into value.
+ 112           void waitToRecieve()
+ 113           {
+ 114   1              unsigned char value;
+ 115   1              RI = 0;
+ 116   1              while(!RI){}
+ 117   1              value = SBUF;
+C51 COMPILER V8.08   LCD                                                                   04/08/2008 14:34:08 PAGE 3   
+
+ 118   1              RI = 0;
+ 119   1              checkControlC(value);
+ 120   1              waitToRecieve();
+ 121   1       }
+ 122          
+ 123          // Checks if control C was 
+ 124          // pushed. If yes clears LCD
+ 125           void checkControlC(unsigned char value)
+ 126           {
+ 127   1              if(value != 0x03)
+ 128   1                      checkControlA(value);
+ 129   1              clearLCD();
+ 130   1              return; 
+ 131   1       }
+ 132          
+ 133          // Checks if control A was
+ 134          // pushed. If yes sets cursor
+ 135          // to write line one
+ 136           void checkControlA(unsigned char value)
+ 137           {
+ 138   1              if(value != 0x01)
+ 139   1                      checkControlZ(value);
+ 140   1              EN = 1;
+ 141   1              RS = 0;
+ 142   1              ldata = 0x02;
+ 143   1              EN = 0;
+ 144   1              waitLCD();
+ 145   1              return;
+ 146   1       }
+ 147          
+ 148          // Checks if control Z was
+ 149          // pushed. If yes sets cursor
+ 150          // to write line two 
+ 151           void checkControlZ(unsigned char value)
+ 152           {
+ 153   1              if(value != 0x1A)
+ 154   1                      writeText(value);
+ 155   1              EN = 1;
+ 156   1              RS = 0;
+ 157   1              ldata = 0xC0;
+ 158   1              EN = 0;
+ 159   1              waitLCD();
+ 160   1              return; 
+ 161   1       }
+ 162          
+ 163          // Writes to the LCD
+ 164           void writeText(unsigned char value)
+ 165           {
+ 166   1              EN = 1;
+ 167   1              RS = 1;
+ 168   1              ldata = value;
+ 169   1              EN = 0;
+ 170   1              waitLCD();
+ 171   1              return;
+ 172   1       }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    187    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+C51 COMPILER V8.08   LCD                                                                   04/08/2008 14:34:08 PAGE 4   
+
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
