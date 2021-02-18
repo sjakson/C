@@ -1,0 +1,4 @@
+--device DARMP "startup.o" "main.o" --strict --scatter "p2.sct" 
+--autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\p2.map" -o "p2.axf"
