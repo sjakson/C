@@ -1,0 +1,22 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Documents and Settings\Administrator\My Documents\csulb\447\keil\p1.uvproj
+Project File Date:  09/29/2009
+
+<h2>Output:</h2>
+Build target 'Target 1'
+assembling Startup.s...
+compiling main.c...
+main.c(1): error:  #169: expected a declaration
+main.c(19): warning:  #12-D: parsing restarts here after previous syntax error
+Target not created
+Build target 'Target 1'
+assembling Startup.s...
+compiling main.c...
+linking...
+Program Size: Code=584 RO-data=16 RW-data=0 ZI-data=1256  
+FromELF: creating hex file...
+"p1.axf" - 0 Error(s), 0 Warning(s).
