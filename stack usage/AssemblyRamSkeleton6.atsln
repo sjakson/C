@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "AssemblyRamSkeleton6", "AssemblyRamSkeleton6.cproj", "{081282FC-C3B6-4EF9-9540-36B4678EE731}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{081282FC-C3B6-4EF9-9540-36B4678EE731}.Debug|AVR.ActiveCfg = Debug|AVR
+		{081282FC-C3B6-4EF9-9540-36B4678EE731}.Debug|AVR.Build.0 = Debug|AVR
+		{081282FC-C3B6-4EF9-9540-36B4678EE731}.Release|AVR.ActiveCfg = Release|AVR
+		{081282FC-C3B6-4EF9-9540-36B4678EE731}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
