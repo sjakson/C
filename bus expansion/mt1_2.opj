@@ -1,0 +1,93 @@
+(ExpressProject ""
+  (ProjectVersion "19981106")
+  (ProjectType "PCB")
+  (Folder "Design Resources"
+    (Folder "Library")
+    (File ".\mt1_2.dsn"
+      (Type "Schematic Design"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x")
+    (NoModify))
+  (Folder "Outputs")
+  (Folder "Referenced Projects")
+  (PartMRUSelector
+    (RESISTOR
+      (FullPartName "RESISTOR.Normal")
+      (LibraryName
+         "C:\ORCAD\ORCAD_15.7_DEMO\TOOLS\CAPTURE\LIBRARY\DISCRETE.OLB")
+      (DeviceIndex "0"))
+    ("SW SPST"
+      (FullPartName "SW SPST.Normal")
+      (LibraryName
+         "C:\ORCAD\ORCAD_16.0_DEMO\TOOLS\CAPTURE\LIBRARY\DISCRETE.OLB")
+      (DeviceIndex "0"))
+    (AND2
+      (FullPartName "AND2.Normal")
+      (LibraryName "C:\ORCAD\ORCAD_16.0_DEMO\TOOLS\CAPTURE\LIBRARY\GATE.OLB")
+      (DeviceIndex "0"))
+    (OR2
+      (FullPartName "OR2.Normal")
+      (LibraryName "C:\ORCAD\ORCAD_16.0_DEMO\TOOLS\CAPTURE\LIBRARY\GATE.OLB")
+      (DeviceIndex "0"))
+    (LED
+      (FullPartName "LED.Normal")
+      (LibraryName
+         "C:\ORCAD\ORCAD_16.0_DEMO\TOOLS\CAPTURE\LIBRARY\DISCRETE.OLB")
+      (DeviceIndex "0"))
+    (VCC_BAR
+      (LibraryName "C:\ORCAD\ORCAD_15.7_DEMO\TOOLS\CAPTURE\LIBRARY\CAPSYM.OLB")
+      (DeviceIndex "0"))
+    (GND
+      (LibraryName "C:\ORCAD\ORCAD_16.0_DEMO\TOOLS\CAPTURE\LIBRARY\CAPSYM.OLB")
+      (DeviceIndex "0"))
+    (74LS138
+      (FullPartName "74LS138.Normal")
+      (LibraryName
+         "C:\ORCAD\ORCAD_16.0_DEMO\TOOLS\CAPTURE\LIBRARY\MUXDECODER.OLB")
+      (DeviceIndex "0"))
+    (74LS368A/SO
+      (FullPartName "74LS368A/SO.Normal")
+      (LibraryName
+         "C:\ORCAD\ORCAD_16.0_DEMO\TOOLS\CAPTURE\LIBRARY\BUSDRIVERTRANSCEIVER.OLB")
+      (DeviceIndex "0"))
+    (74LS368A/LCC
+      (FullPartName "74LS368A/LCC.Normal")
+      (LibraryName
+         "C:\ORCAD\ORCAD_16.0_DEMO\TOOLS\CAPTURE\LIBRARY\BUSDRIVERTRANSCEIVER.OLB")
+      (DeviceIndex "0"))
+    (74LS368A
+      (FullPartName "74LS368A.Normal")
+      (LibraryName
+         "C:\ORCAD\ORCAD_16.0_DEMO\TOOLS\CAPTURE\LIBRARY\BUSDRIVERTRANSCEIVER.OLB")
+      (DeviceIndex "0"))
+    (74LS373
+      (FullPartName "74LS373.Normal")
+      (LibraryName
+         "C:\ORCAD\ORCAD_16.0_DEMO\TOOLS\CAPTURE\LIBRARY\BUSDRIVERTRANSCEIVER.OLB")
+      (DeviceIndex "0")))
+  (GlobalState
+    (FileView
+      (Path "Design Resources")
+      (Path "Design Resources" "E:\cecs347\mt2\mt1_2.dsn")
+      (Path "Design Resources" "E:\cecs347\mt2\mt1_2.dsn" "SCHEMATIC1")
+      (Select "Design Resources" "E:\cecs347\mt2\mt1_2.dsn" "SCHEMATIC1"
+         "PAGE1"))
+    (HierarchyView)
+    (Doc
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -4 -30 0 200 0 595"))
+      (Tab 0))
+    (Doc
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 2 3 -1 -1 -4 -23 44 866 44 492")
+        (Scroll "309 327")
+        (Zoom "100")
+        (Occurrence "/"))
+      (Path "E:\CECS347\MT2\MT1_2.DSN")
+      (Schematic "SCHEMATIC1")
+      (Page "PAGE1")))
+  (MPSSessionName "sjackson")
+  (LastUsedLibraryBrowseDirectory
+     "C:\OrCAD\OrCAD_16.0_Demo\tools\capture\library\pspice"))

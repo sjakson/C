@@ -1,0 +1,73 @@
+C51 COMPILER V8.02   LAB3                                                                  10/09/2006 14:01:02 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE LAB3
+OBJECT MODULE PLACED IN lab3.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE lab3.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          // TinFai Hui (Samuel)
+   2          // CECS 347
+   3          // Lab 3 (Option 1)
+   4          // 10/9/2006
+   5          
+   6          #include <reg52.h>                                              //use reg52.h for pre-defined SFR
+   7          
+   8          
+   9          //Define Variables
+  10          static unsigned char value1 = 0;                //the current value represented by the 7 on-board LEDs
+  11          static unsigned char value2 = 0;                //the current value on the 7-segment display
+  12          
+  13          
+  14          //Function Prototypes
+  15          void timer2 (void) interrupt 5                  //priority order = 5 for timer 2
+  16          {
+  17   1              TR2 = 0;                                                        //turn off timer 2
+  18   1              TF2 = 0;                                                        //clear timer 2 flag
+  19   1                              
+  20   1              P1 = value1;                                            //set P1 for LED output the value
+  21   1              if(value1 == 255)                                       //00-FF
+  22   1              {       
+  23   2                      value2++;                                               //value2 = value2 + 1
+  24   2                      if(value2 > 9)                                  //value on 7-segment is bigger than 9
+  25   2                              value2 = 0;                                     //reset to 0
+  26   2                      P2 = value2;                                    //P2 as the communication port  
+  27   2              }
+  28   1              value1++;                                                       //value1 = value1 + 1
+  29   1              TR2 = 1;                                                        //timer 2 runs
+  30   1      }
+  31          
+  32          //Main Program
+  33          void main (void)
+  34          {       
+  35   1              T2CON = 0x00;                                           //setting the timer 2 into auto-reload mode
+  36   1              ET2 = 1;                                //enable Timer 2 Interrupts
+  37   1              
+  38   1              RCAP2L = 0x00;
+  39   1              RCAP2H = 0xB8;                          //Baud Rate = 
+  40   1                                                                                      //Oscillator Frequency/[n * [65536 - (B8,00)
+  41   1              value1 = 0;                                                     //reset value on the on-board LEDs 
+  42   1              value2 = 0;                                                     //reset value on the 7-segment display
+  43   1              P2 = value2;                                            //P2 as the communication port
+  44   1              TR2 = 1;                                                        //timer2 runs
+  45   1              EA = 1;                                 //enable interrupt
+  46   1              
+  47   1              while(1) {}                                                     //loop forever, so the program never stops
+  48   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     63    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+C51 COMPILER V8.02   LAB3                                                                  10/09/2006 14:01:02 PAGE 2   
+
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
