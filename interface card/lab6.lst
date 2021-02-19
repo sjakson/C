@@ -1,0 +1,141 @@
+C51 COMPILER V8.04   LAB6                                                                  11/17/2006 14:26:12 PAGE 1   
+
+
+C51 COMPILER V8.04, COMPILATION OF MODULE LAB6
+OBJECT MODULE PLACED IN lab6.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE lab6.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //Tin Fai Hui (Samuel)
+   2          //CECS 347
+   3          //Lab 6
+   4          //11/15/2006
+   5          
+   6          
+   7          #include <REG52a.h>                                                                     //use reg52.h for pre-defined SFR       
+   8          #define XTAL 11059200                                                           //crystal oscillator frequency = 11.0592MHz
+   9          
+  10          
+  11          //Initialize Variables-----------------------------------------------------------------------------------
+  12          unsigned char timer = 0;                                                        //a timer variable that count up to 0.5 sec
+  13          bit signal;                                                                                     //generate a singal if reach 0.5 sec
+  14          unsigned char counter = 0;                                                      //a counter variable from  0 to 15
+  15          unsigned char alphabet = 'A';                                           //set the fist alpahbet = A
+  16          unsigned char received_alphabet;                                        //the received alphabet from Port B
+  17          unsigned char xdata *ptr = 0x00;                                        //declare a pointer point to external 8255A
+  18          
+  19          // Function Prototype------------------------------------------------------------------------------------
+  20          void initialize (void);                                                         //initialize the serial port    
+  21          void set_baudrate (unsigned int baudrate);                      //setup the baud rate
+  22          void initialize_t2();                                                           //initialize timer2 for interrupt for every 0.5 sec
+  23          
+  24          // Main Program------------------------------------------------------------------------------------------
+  25          void main()
+  26          {
+  27   1              AUXR |= 0x02;                                                                   //set up external memory access to 8255 
+  28   1              initialize();                                                                   //initialize serial port    
+  29   1              initialize_t2();                                                                //initialize timer 2
+  30   1              ptr[0x9003] = 0x83;                                                             //set control register = 10000011 = 83H 
+  31   1          while(1)                                                                            //repeat main forever
+  32   1              {
+  33   2                      if(signal)                                                                      //0.5 sec time delay is generated 
+  34   2                      {                  
+  35   3                              //Part 1
+  36   3                              ptr[0x9000] = alphabet;                                 //send "A" to Port A for output
+  37   3                              alphabet++;                                                             //count from "A" to "Z"
+  38   3                              if(alphabet > 'Z' && alphabet < 'a')    //finish from "A" to "Z" 
+  39   3                                      alphabet = 'a';                                         //jump to lower alphabet "a" 
+  40   3      
+  41   3                              else if(alphabet > 'z')                                 //finish from "a" to "z"
+  42   3                                      alphabet = 'A';                                 //start upper alphabet "A" again
+  43   3      
+  44   3                              received_alphabet = ptr[0x9001];                //receive the alphabet from Port B
+  45   3                              SBUF = received_alphabet;                               //display the received alphabet to HyperTerminal
+  46   3      
+  47   3                              //Part 2
+  48   3                              ptr[0x9002] = counter << 4;                             //send the current number to Upper Port C for output
+  49   3                              counter++;                                                              //increment counter
+  50   3                              counter = counter % 16;                                 //make sure the counter will not over count
+  51   3                              P1 = 0x0F & ptr[0x9002];                                                //receive the number from Lower Port C to display 
+  52   3                                                                                                              //on LEDs 
+  53   3                              
+  54   3                              while(TI == 0);                                                 //wait until the byte is sent
+  55   3                              TI = 0;                                                                 //clear flag
+C51 COMPILER V8.04   LAB6                                                                  11/17/2006 14:26:12 PAGE 2   
+
+  56   3      
+  57   3                              signal = 0;                                                             //clear signal
+  58   3                      }                                                                               
+  59   2              }  
+  60   1      }
+  61          
+  62          
+  63          // Function Definitions----------------------------------------------------------------------------------
+  64          void t2_ISR (void) interrupt 5                                          //interrupt service routine for timer 2
+  65          {
+  66   1              TF2 = 0;                                                                                //clear interrupt flag                          
+  67   1              timer++;                                                                                //increment the timer
+  68   1              timer %= 10;                                                                    //make sure the timer will not over count
+  69   1              if(timer == 0)                                                                  //finish counting from 0-9
+  70   1                      signal = 1;                                                                     //0.5 sec is reached  
+  71   1      }
+  72          
+  73          
+  74          void initialize (void)
+  75          {
+  76   1              set_baudrate (9600);                                                    //set baurd rate to 9600 
+  77   1      
+  78   1              EA = 0;                                                                         //disable all interrupts 
+  79   1              SM0 = 0; 
+  80   1              SM1 = 1;                                                                                //serial mode 1, 1 stop bit, 1 start bit                                                                
+  81   1              SM2 = 0;
+  82   1              REN = 1;                                                                                //receive enable: allow 8051 transfer & receive data 
+  83   1              TI = 0;                                                                                 //clear transmit interrupt flag
+  84   1              RI = 0;                                                                                 //clear receive interrupt flag
+  85   1              ES = 1;                                                                                 //enable serial interrupts       
+  86   1              EA = 1;                                                                         //enable interrupts 
+  87   1      }
+  88          
+  89          
+  90          void set_baudrate (unsigned int baudrate)
+  91          {
+  92   1              EA = 0;                                                                         //disable all interrupts 
+  93   1              TI = 0;                                                                                 //clear transmit interrupt flag
+  94   1              TR1 = 0;                                                                                //stop timer 1 
+  95   1              ET1 = 0;                                                                                //disable timer 1 interrupt                        
+  96   1              PCON |= 0x80;                                                                   //make baudrate x2 to get the full period 
+  97   1              TMOD &= ~0xF0;                                                                  //clear timer 1 mode bits
+  98   1              TMOD |= 0x20;                                                                   //timer 1, mode2 
+  99   1              TH1 = (unsigned char) (256 - (XTAL / (16L * 12L * baudrate)));          
+ 100   1                                                                                                              //formula for getting TH1 value                                                                 
+ 101   1              TR1 = 1;                                                                                //timer 1 runs
+ 102   1              EA = 1;                                                                 //enable all interrupts 
+ 103   1      }
+ 104          
+ 105          
+ 106          void initialize_t2()
+ 107          {
+ 108   1              T2CON = 0x00;                                                                   //set timer2 to auto-reload mode
+ 109   1          ET2 = 1;                                                                            //enable timer 2 interrupts                
+ 110   1              RCAP2L = 0x00;                                                                  //set the auto-reload value to make the interrupt 
+ 111   1              RCAP2H = 0x4C;                                                                  //occur in every 0.5s
+ 112   1              TR2 = 1;                                                                                //timer 2 runs 
+ 113   1              EA = 1;                                                                                 //enable interrupt        
+ 114   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+C51 COMPILER V8.04   LAB6                                                                  11/17/2006 14:26:12 PAGE 3   
+
+   CODE SIZE        =    269    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      6    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

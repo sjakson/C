@@ -1,0 +1,224 @@
+BL51 BANKED LINKER/LOCATER V6.02                                                        11/17/2006  14:26:12  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.02, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE lab6.obj TO lab6 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  lab6.obj (LAB6)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?LMUL)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?SLDIV)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?ULDIV)
+
+
+LINK MAP OF MODULE:  lab6 (LAB6)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0006H     UNIT         ?DT?LAB6
+                    000EH     0012H                  *** GAP ***
+            BIT     0020H.0   0000H.1   UNIT         ?BI?LAB6
+                    0020H.1   0000H.7                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0028H                  *** GAP ***
+            CODE    002BH     0003H     ABSOLUTE     
+                    002EH     07D2H                  *** GAP ***
+            CODE    0800H     011DH     UNIT         ?C?LIB_CODE
+            CODE    091DH     008CH     UNIT         ?C_C51STARTUP
+            CODE    09A9H     008BH     UNIT         ?PR?MAIN?LAB6
+            CODE    0A34H     0044H     UNIT         ?C?LDIV
+            CODE    0A78H     0039H     UNIT         ?PR?_SET_BAUDRATE?LAB6
+            CODE    0AB1H     0020H     UNIT         ?PR?T2_ISR?LAB6
+            CODE    0AD1H     001AH     UNIT         ?PR?INITIALIZE?LAB6
+            CODE    0AEBH     000FH     UNIT         ?PR?INITIALIZE_T2?LAB6
+            CODE    0AFAH     000EH     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   lab6 (LAB6)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?LAB6
+  +--> ?C_INITSEG
+
+?PR?MAIN?LAB6
+BL51 BANKED LINKER/LOCATER V6.02                                                      11/17/2006  14:26:12  PAGE 2
+
+
+  +--> ?PR?INITIALIZE?LAB6
+  +--> ?PR?INITIALIZE_T2?LAB6
+
+?PR?INITIALIZE?LAB6
+  +--> ?PR?_SET_BAUDRATE?LAB6
+
+
+
+SYMBOL TABLE OF MODULE:  lab6 (LAB6)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        LAB6
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  B:0020H.0       PUBLIC        signal
+  D:00B0H         PUBLIC        P3
+  D:0008H         PUBLIC        counter
+  B:00A8H.7       PUBLIC        EA
+  D:00A8H         PUBLIC        IE
+  B:00A8H.4       PUBLIC        ES
+  D:00B8H         PUBLIC        IP
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
+  D:00CBH         PUBLIC        RCAP2H
+  D:0009H         PUBLIC        timer
+  D:00CAH         PUBLIC        RCAP2L
+  C:09A9H         PUBLIC        main
+  D:0099H         PUBLIC        SBUF
+  D:0087H         PUBLIC        PCON
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  C:0AD1H         PUBLIC        initialize
+  C:0AEBH         PUBLIC        initialize_t2
+  D:008EH         PUBLIC        AUXR
+  D:000AH         PUBLIC        alphabet
+  B:00A8H.3       PUBLIC        ET1
+  B:00A8H.5       PUBLIC        ET2
+  B:00C8H.7       PUBLIC        TF2
+  D:008DH         PUBLIC        TH1
+  B:0098H.7       PUBLIC        SM0
+  B:0098H.6       PUBLIC        SM1
+  B:0098H.5       PUBLIC        SM2
+  D:000BH         PUBLIC        ptr
+  B:0088H.6       PUBLIC        TR1
+  B:00C8H.2       PUBLIC        TR2
+  B:0098H.4       PUBLIC        REN
+  D:00C8H         PUBLIC        T2CON
+  D:000DH         PUBLIC        received_alphabet
+  C:0AB1H         PUBLIC        t2_ISR
+  D:00D0H         PUBLIC        PSW
+  C:0A78H         PUBLIC        _set_baudrate
+  -------         PROC          MAIN
+  C:09A9H         LINE#         25
+  C:09A9H         LINE#         26
+BL51 BANKED LINKER/LOCATER V6.02                                                      11/17/2006  14:26:12  PAGE 3
+
+
+  C:09A9H         LINE#         27
+  C:09ACH         LINE#         28
+  C:09AFH         LINE#         29
+  C:09B2H         LINE#         30
+  C:09C1H         LINE#         31
+  C:09C1H         LINE#         32
+  C:09C1H         LINE#         33
+  C:09C4H         LINE#         34
+  C:09C4H         LINE#         36
+  C:09D2H         LINE#         37
+  C:09D4H         LINE#         38
+  C:09E1H         LINE#         39
+  C:09E6H         LINE#         41
+  C:09EDH         LINE#         42
+  C:09F0H         LINE#         44
+  C:09FFH         LINE#         45
+  C:0A01H         LINE#         48
+  C:0A15H         LINE#         49
+  C:0A17H         LINE#         50
+  C:0A1AH         LINE#         51
+  C:0A2BH         LINE#         54
+  C:0A2EH         LINE#         55
+  C:0A30H         LINE#         57
+  C:0A32H         LINE#         58
+  C:0A32H         LINE#         59
+  -------         ENDPROC       MAIN
+  -------         PROC          T2_ISR
+  C:0AB1H         LINE#         64
+  C:0AB7H         LINE#         66
+  C:0AB9H         LINE#         67
+  C:0ABBH         LINE#         68
+  C:0AC4H         LINE#         69
+  C:0AC8H         LINE#         70
+  C:0ACAH         LINE#         71
+  -------         ENDPROC       T2_ISR
+  -------         PROC          INITIALIZE
+  C:0AD1H         LINE#         74
+  C:0AD1H         LINE#         75
+  C:0AD1H         LINE#         76
+  C:0AD8H         LINE#         78
+  C:0ADAH         LINE#         79
+  C:0ADCH         LINE#         80
+  C:0ADEH         LINE#         81
+  C:0AE0H         LINE#         82
+  C:0AE2H         LINE#         83
+  C:0AE4H         LINE#         84
+  C:0AE6H         LINE#         85
+  C:0AE8H         LINE#         86
+  C:0AEAH         LINE#         87
+  -------         ENDPROC       INITIALIZE
+  -------         PROC          _SET_BAUDRATE
+  D:0006H         SYMBOL        baudrate
+  C:0A78H         LINE#         90
+  C:0A78H         LINE#         91
+  C:0A78H         LINE#         92
+  C:0A7AH         LINE#         93
+  C:0A7CH         LINE#         94
+BL51 BANKED LINKER/LOCATER V6.02                                                      11/17/2006  14:26:12  PAGE 4
+
+
+  C:0A7EH         LINE#         95
+  C:0A80H         LINE#         96
+  C:0A83H         LINE#         97
+  C:0A86H         LINE#         98
+  C:0A89H         LINE#         99
+  C:0AACH         LINE#         101
+  C:0AAEH         LINE#         102
+  C:0AB0H         LINE#         103
+  -------         ENDPROC       _SET_BAUDRATE
+  -------         PROC          INITIALIZE_T2
+  C:0AEBH         LINE#         106
+  C:0AEBH         LINE#         107
+  C:0AEBH         LINE#         108
+  C:0AEEH         LINE#         109
+  C:0AF0H         LINE#         110
+  C:0AF2H         LINE#         111
+  C:0AF5H         LINE#         112
+  C:0AF7H         LINE#         113
+  C:0AF9H         LINE#         114
+  -------         ENDPROC       INITIALIZE_T2
+  -------         ENDMOD        LAB6
+
+  -------         MODULE        ?C?LMUL
+  C:0800H         PUBLIC        ?C?LMUL
+  -------         ENDMOD        ?C?LMUL
+
+  -------         MODULE        ?C?SLDIV
+  C:0A34H         PUBLIC        ?C?SLDIV
+  -------         ENDMOD        ?C?SLDIV
+
+  -------         MODULE        ?C?ULDIV
+  C:088BH         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 011DH BYTE (13%) *
+******************************************************************************
+
+Program Size: data=15.1 xdata=0 code=782
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
